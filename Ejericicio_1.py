@@ -53,12 +53,13 @@ start = h1 * np.ones((Nlay, N, N))
 ic = flopy.mf6.ModflowGwfic(gwf, pname="ic", strt=start) #initial conditions.
 
 #Controla flujo entre celdas
+k=np.ones([10,N,N])
+k[1,:,:]=5e-3
 npf = flopy.mf6.ModflowGwfnpf(gwf, icelltype=1, k=k, save_flows=True)
 
 #
 chd_rec = []
 chd_rec.append(((0, int(N / 4), int(N / 4)), h2))
-chd_rec.append(((1, int(3*N / 4), int(3*N / 4)), h2-5))
 for layer in range(0, Nlay):
     for row_col in range(0, N):
         chd_rec.append(((layer, row_col, 0), h1))
