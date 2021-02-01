@@ -54,12 +54,13 @@ ic = flopy.mf6.ModflowGwfic(gwf, pname="ic", strt=start) #initial conditions.
 
 #Controla flujo entre celdas
 k=np.ones([10,N,N])
-k[1,:,:]=5e-3
+k[1,:,:]=5e-1
 npf = flopy.mf6.ModflowGwfnpf(gwf, icelltype=1, k=k, save_flows=True)
 
 #
 chd_rec = []
 chd_rec.append(((0, int(N / 4), int(N / 4)), h2))
+chd_rec.append(((1, int(3*N / 4), int(3*N / 4)), h2-5))
 for layer in range(0, Nlay):
     for row_col in range(0, N):
         chd_rec.append(((layer, row_col, 0), h1))
@@ -118,7 +119,7 @@ x = y = np.linspace(0, L, N)
 y = y[::-1]
 fig = plt.figure(figsize=(6, 6))
 ax = fig.add_subplot(1, 1, 1, aspect="equal")
-c = ax.contour(x, y, h[-1], np.arange(90, 100.1, 0.2), colors="black")
+c = ax.contour(x, y, h[-5], np.arange(90, 100.1, 0.2), colors="black")
 plt.clabel(c, fmt="%1.1f")
 
 #Ploteando sección transversal
